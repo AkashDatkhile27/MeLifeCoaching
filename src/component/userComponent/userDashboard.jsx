@@ -3,7 +3,7 @@ import React, { useState, useEffect,useRef} from 'react';
 import { Lightbulb, CheckCircle, Loader2 } from 'lucide-react';
 // --- TOAST COMPONENT ---
 import {Toast} from '../uiComponent/Toast';
-
+import { useNavigate } from "react-router-dom";
 // --- COMPONENTS ---
 import AudioPlayerModal from './AudioPlayerModal';
 import UserNavbar from './userNavbar'
@@ -29,7 +29,7 @@ const UserDashboard = () => {
   const [notifications, setNotifications] = useState([]);
   // user reflection state
       const [selectedReflectionSessionId, setSelectedReflectionSessionId] = useState(null);
-
+const navigate = useNavigate();
     // Tabs State
   const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' or 'profile'
   // Toast State
@@ -212,7 +212,11 @@ const UserDashboard = () => {
     };
     
 
-
+// logout handler
+  const handleLogout = () => {
+  sessionStorage.clear();
+  navigate("/login", { replace: true });
+};
   
 
   if (loading) return <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#000', color:'#fff'}}><Loader2 className="animate-spin" /></div>;
@@ -230,7 +234,7 @@ const UserDashboard = () => {
             onDashboardClick={() => setActiveTab('dashboard')}
              onReflectionsClick={() => setActiveTab('reflections')}
              onFlashcardsClick={() => setActiveTab('flashcards')}
-            onLogout={() => { sessionStorage.clear(); window.location.href='/login';}} 
+            onLogout={() => handleLogout()} 
         />
         
         <div className="scrollable-area">
