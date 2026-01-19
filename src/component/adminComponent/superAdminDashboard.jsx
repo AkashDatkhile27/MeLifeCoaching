@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-
+import { useNavigate } from "react-router-dom";
 import { Loader2, Shield, Bell } from 'lucide-react';
 // --- COMPONENTS ---
 // import UserNavbar from '../userComponent/userNavbar'
@@ -26,6 +26,7 @@ const SuperAdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   // Tabs State
   const [activeTabProfile, setActiveTabProfile] = useState('dashboard'); // 'dashboard' or 'profile'
+  const navigate = useNavigate();
   // Data
   const [users, setUsers] = useState([]);
   const [sessions, setSessions] = useState([]);
@@ -237,6 +238,9 @@ const SuperAdminDashboard = () => {
         showToast(e.message || 'Failed to change password.');
     }
   };
+
+
+
    
   if (loading) return <div className="loader-screen"><Loader2 className="animate-spin" size={40}/></div>;
 
@@ -250,7 +254,7 @@ const SuperAdminDashboard = () => {
             notifications={notifications} 
             onProfileClick={() => setActiveTabProfile('profile')}
             onDashboardClick={() => setActiveTabProfile('dashboard')}
-            onLogout={() => { sessionStorage.clear(); window.location.href='/login';}} 
+            onLogout={() => { sessionStorage.clear(); navigate("/login", { replace: true });}} 
         />
          
         {activeTabProfile === 'dashboard'? (
